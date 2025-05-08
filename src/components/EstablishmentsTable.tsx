@@ -13,19 +13,22 @@ export const EstablishmentsTable: React.FC<{
   isLoading: boolean;
   favourites: { [key: string]: string }[];
   onToggleFavourite: (establishment: { [key: string]: string }) => void;
-}> = ({ establishments, isLoading, favourites, onToggleFavourite }) => {
+  onRemoveFavourite: (establishment: { [key: string]: string }) => void;
+}> = ({ establishments, isLoading, favourites, onToggleFavourite, onRemoveFavourite }) => {
   console.log("EstablishmentsTable", establishments, isLoading, favourites);
   return (
       <>
         <table>
           <tbody>
-          <tr>
-            <th style={headerStyle}>Business Name</th>
-            <th style={headerStyle}>Rating Value</th>
-          </tr>
           {isLoading ?
               <h3> <>Loading...</> </h3> :
-              establishments &&
+              (
+                <>
+              <tr>
+                <th style={headerStyle}>Business Name</th>
+                <th style={headerStyle}>Rating Value</th>
+              </tr>
+              {establishments &&
               establishments?.map(
                   (
                       establishment: { [key: string]: string } | null | undefined,
@@ -39,6 +42,8 @@ export const EstablishmentsTable: React.FC<{
                       />
                   )
               )}
+              </>
+            )}
           </tbody>
         </table>
         {favourites.length > 0 && (
@@ -58,7 +63,7 @@ export const EstablishmentsTable: React.FC<{
                       <td>{establishment.BusinessName}</td>
                       <td>{establishment.RatingValue}</td>
                       <td>
-                        <button onClick={() => onToggleFavourite(establishment)}>
+                        <button onClick={() => onRemoveFavourite(establishment)}>
                           Remove
                         </button>
                       </td>

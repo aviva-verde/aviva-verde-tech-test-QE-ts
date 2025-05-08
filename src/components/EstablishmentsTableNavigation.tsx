@@ -19,7 +19,6 @@ export const EstablishmentsTableNavigation = (
           <button
               type="button"
               style={buttonStyle}
-              disabled={pageNum <= 1}
               onClick={onPreviousPage}
           >
             -

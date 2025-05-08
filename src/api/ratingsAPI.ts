@@ -32,7 +32,7 @@ export function getEstablishmentRatingsByAuthorityId(
     localAuthorityId: string,
 ): Promise<EstablishmentsType> {
   return fetch(
-      `http://api.ratings.food.gov.uk/Establishments?localAuthorityId=${localAuthorityId}&pageNumber=${pageNum}&pageSize=10`,
+      `http://api.ratings.food.gov.uk/Establishments?localAuthorityId=1&pageNumber=${pageNum}&pageSize=10`,
       { headers: { "x-api-version": "2" } }
   ).then((res) => res.json());
 }

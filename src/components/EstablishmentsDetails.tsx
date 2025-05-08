@@ -5,7 +5,7 @@ import {useHistory, useParams} from "react-router-dom";
 const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB");
+    return date.toLocaleDateString("en-US");
 };
 
 const formatAddress = (est: any) =>
@@ -34,9 +34,6 @@ const EstablishmentsDetails: React.FC = () => {
             <h2>{establishment.BusinessName}</h2>
             <p>
                 <strong>Address:</strong> {formatAddress(establishment)}
-            </p>
-            <p>
-                <strong>Rating:</strong> {establishment.RatingValue}
             </p>
             <p>
                 <strong>Date of Inspection:</strong> {formatDate(establishment.RatingDate)}

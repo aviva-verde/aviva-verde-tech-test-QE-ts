@@ -67,13 +67,13 @@ describe("PaginatedEstablishmentsTable filtering", () => {
     it("shows establishments filtered by selected country", async () => {
         render(<PaginatedEstablishmentsTable />);
         renderWithRouter(<PaginatedEstablishmentsTable />);
-        
+
         await waitFor(() => expect(countriesAPI.getCountries).toHaveBeenCalled());
-        
+
         const countryDropdown = await screen.findByLabelText(/filter by/i, { selector: "select#country-dropdown" });
         fireEvent.change(countryDropdown, { target: { value: "CTY1" } });
         await waitFor(() => expect(screen.getByText("Country Eatery")).toBeInTheDocument());
-        
+
         await waitFor(() => {
             expect(ratingsAPI.getEstablishmentRatingsByCountryId).toHaveBeenCalledWith(expect.any(Number), "CTY1");
             expect(screen.getByText("Country Eatery")).toBeInTheDocument();
@@ -83,13 +83,13 @@ describe("PaginatedEstablishmentsTable filtering", () => {
     it("shows establishments filtered by selected authority", async () => {
         render(<PaginatedEstablishmentsTable />);
         renderWithRouter(<PaginatedEstablishmentsTable />);
-        
+
         await waitFor(() => expect(authorityAPI.getAuthorities).toHaveBeenCalled());
-        
-        const authorityDropdown = await screen.findByLabelText(/authority/i, { selector: "select#authority-dropdown" });
+
+        const authorityDropdown = await screen.findByLabelText(/filter by/i, { selector: "select#authority-dropdown" });
         fireEvent.change(authorityDropdown, { target: { value: "AUTH1" } });
         await waitFor(() => expect(screen.getByText("Authority Diner")).toBeInTheDocument());
-        
+
         await waitFor(() => {
             expect(ratingsAPI.getEstablishmentRatingsByAuthorityId).toHaveBeenCalledWith(expect.any(Number), "AUTH1");
             expect(screen.getByText("Authority Diner")).toBeInTheDocument();
@@ -100,7 +100,7 @@ describe("PaginatedEstablishmentsTable filtering", () => {
         render(<PaginatedEstablishmentsTable />);
         await waitFor(() => expect(screen.getByText("Default Cafe")).toBeInTheDocument());
         renderWithRouter(<PaginatedEstablishmentsTable />);
-        
+
         await waitFor(() => {
             expect(ratingsAPI.getEstablishmentRatings).toHaveBeenCalled();
             expect(screen.getByText("Default Cafe")).toBeInTheDocument();

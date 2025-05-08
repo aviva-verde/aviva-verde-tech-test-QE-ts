@@ -15,7 +15,7 @@ const tableStyle = {
   width: "max-content",
   marginLeft: "50px",
   color: "white",
-    fontSize: "20px"
+    fontSize: "21px"
 };
 
 export const PaginatedEstablishmentsTable = () => {
@@ -99,8 +99,7 @@ export const PaginatedEstablishmentsTable = () => {
     }
 
     async function handlePreviousPage() {
-        setIsLoading(true)
-        pageNum > 1 && setPageNum(pageNum - 1);
+        setPageNum(pageNum - 1);
         loadEstablishmentRatings();
     }
 
@@ -112,13 +111,19 @@ export const PaginatedEstablishmentsTable = () => {
 
     function handleToggleFavourite(establishment: any) {
         setFavourites(prevFavs => {
+            return [...prevFavs, establishment];
+        });
+    }
+
+    function handleRemoveFavourite(establishment: any) {
+        setFavourites(prevFavs => {
             if (prevFavs.find(fav => fav.FHRSID === establishment.FHRSID)) {
                 return prevFavs.filter(fav => fav.FHRSID !== establishment.FHRSID);
             } else {
                 return [...prevFavs, establishment];
             }
         });
-  }
+    }
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -170,6 +175,7 @@ export const PaginatedEstablishmentsTable = () => {
                 isLoading={isLoading}
                 favourites={favourites}
                 onToggleFavourite={handleToggleFavourite}
+                onRemoveFavourite={handleRemoveFavourite}
             />
             <EstablishmentsTableNavigation
                 pageNum={pageNum}

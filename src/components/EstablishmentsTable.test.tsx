@@ -27,6 +27,7 @@ describe("EstablishmentsTable font size", () => {
                 isLoading={false}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
 
@@ -52,6 +53,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={false}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.getByText("Business Name")).toBeInTheDocument();
@@ -65,6 +67,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={true}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.getByText("Loading...")).toBeInTheDocument();
@@ -79,6 +82,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={false}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.getByText("Cafe One")).toBeInTheDocument();
@@ -93,6 +97,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={false}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
 
@@ -106,6 +111,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={false}
                 favourites={mockFavourites}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.getByText("Favourites")).toBeInTheDocument();
@@ -127,19 +133,21 @@ describe("EstablishmentsTable", () => {
                 isLoading={false}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.queryByText("Favourites")).not.toBeInTheDocument();
     });
 
-    it("calls onToggleFavourite when remove button is clicked", () => {
+    it("calls onRemoveFavourite when remove button is clicked", () => {
         const onToggle = jest.fn();
         render(
             <EstablishmentsTable
                 establishments={mockEstablishments}
                 isLoading={false}
                 favourites={mockFavourites}
-                onToggleFavourite={onToggle}
+                onToggleFavourite={jest.fn()}
+                onRemoveFavourite={onToggle}
             />
         );
         fireEvent.click(screen.getByRole("button", { name: /remove/i }));
@@ -155,6 +163,7 @@ describe("EstablishmentsTable", () => {
                 isLoading={true}
                 favourites={[]}
                 onToggleFavourite={jest.fn()}
+                onRemoveFavourite={jest.fn()}
             />
         );
         expect(screen.queryByText("Cafe Example")).not.toBeInTheDocument();
