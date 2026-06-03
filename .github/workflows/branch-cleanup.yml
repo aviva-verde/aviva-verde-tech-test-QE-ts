@@ -1,0 +1,27 @@
+name: Branch Cleanup
+
+# Managed by aviva-verde/github-branch-cleanup rollout.
+# Edit `with:` values below to tune behaviour for this repo.
+# Once you've reviewed a dry run and are happy, flip `dry_run` to `false`.
+
+on:
+  schedule:
+    # Every Saturday at 00:00 UTC
+    - cron: "0 0 * * 6"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview mode without actual deletions"
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  cleanup:
+    uses: aviva-verde/github-branch-cleanup/.github/workflows/reusable-branch-cleanup.yml@main
+    permissions:
+      contents: write
+    with:
+      stale_days: 270
+      dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || true }}
+      exclude_patterns: "main,master,develop,staging,production,release/*,hotfix/*,support/*"
