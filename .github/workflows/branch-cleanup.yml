@@ -2,7 +2,12 @@ name: Branch Cleanup
 
 # Managed by aviva-verde/github-branch-cleanup rollout.
 # Edit `with:` values below to tune behaviour for this repo.
-# Once you've reviewed a dry run and are happy, flip `dry_run` to `false`.
+#
+# Scheduled runs are DRY RUNS until you opt in to live deletion: review a dry
+# run's summary, then set the repository (or organisation) variable
+# BRANCH_CLEANUP_DRY_RUN to "false" under Settings > Secrets and variables >
+# Actions > Variables. Set it to "true" to pause deletions (deleting the repo
+# variable would fall back to any organisation value).
 
 on:
   schedule:
@@ -12,16 +17,21 @@ on:
     inputs:
       dry_run:
         description: "Preview mode without actual deletions"
-        required: false
-        type: boolean
-        default: true
+        required: true
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: "true"
 
 jobs:
   cleanup:
-    uses: aviva-verde/github-branch-cleanup/.github/workflows/reusable-branch-cleanup.yml@main
+    uses: aviva-verde/github-branch-cleanup/.github/workflows/reusable-branch-cleanup.yml@v1
     permissions:
       contents: write
+      pull-requests: read
     with:
       stale_days: 270
-      dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || true }}
-      exclude_patterns: "main,master,develop,staging,production,release/*,hotfix/*,support/*"
+      dry_run_override: ${{ inputs.dry_run }}
+      dry_run_variable: ${{ vars.BRANCH_CLEANUP_DRY_RUN }}
+      exclude_patterns: "main,master,develop,development,staging,production,release/*,hotfix/*,support/*"
